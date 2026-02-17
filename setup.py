@@ -15,5 +15,5 @@ setup(
 	keywords = "novation launchpad scales midi",
 	url = "https://github.com/dhilowitz/GridInstrument",
 	packages = ["grid_instrument"],
-	install_requires = ["launchpad_rtmidi_py", "python-rtmidi"]
+	install_requires = ["launchpad_py", "python-rtmidi"]
 )

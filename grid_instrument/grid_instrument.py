@@ -4,16 +4,27 @@ import math
 import collections
 import sys
 
-try:
-	import launchpad_rtmidi_py as launchpad
-except ImportError:
-	try:
-		import launchpad_rtmidi as launchpad
-	except ImportError as exc:
-		raise ImportError(
-			"Could not import Launchpad library. Install one of: "
-			"launchpad_rtmidi_py or launchpad_rtmidi"
-		) from exc
+launchpad = None
+
+
+def _load_launchpad_module():
+	global launchpad
+	if launchpad is not None:
+		return launchpad
+
+	last_error = None
+	for module_name in ("launchpad_py", "launchpad_rtmidi_py", "launchpad_rtmidi"):
+		try:
+			module = __import__(module_name)
+			launchpad = module
+			return launchpad
+		except ImportError as exc:
+			last_error = exc
+
+	raise ImportError(
+		"Could not import a Launchpad backend. On Python 3 use 'launchpad_py'. "
+		"The legacy packages 'launchpad_rtmidi_py' and 'launchpad_rtmidi' are Python 2 only."
+	) from last_error
 
 class GridInstrument:
 
@@ -117,18 +128,19 @@ class GridInstrument:
 		
 	def discover_launchpad(self, keep_checking=False):
 		# create an instance
-		self.lp = launchpad.Launchpad()
+		lp_module = _load_launchpad_module()
+		self.lp = lp_module.Launchpad()
 		while self._launchpad_model is None:
 			# lp.ListAll()
 			# check what we have here and override lp if necessary
 			if self.lp.Check( 0, "pro" ):
-				self.lp = launchpad.LaunchpadPro()
+				self.lp = lp_module.LaunchpadPro()
 				if self.lp.Open():
 					print("Launchpad Pro")
 					self._launchpad_model = "Pro"
 					
 			elif self.lp.Check( 0, "mk2" ):
-				self.lp = launchpad.LaunchpadMk2()
+				self.lp = lp_module.LaunchpadMk2()
 				if self.lp.Open():
 					print("Launchpad Mk2")
 					self._launchpad_model = "Mk2"    
