@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #
 # Quick usage example of "grid_instrument" with MIDI output port.
 # Works with all Launchpads: Mk1, Mk2, S/Mini, Pro, XL and LaunchKey
@@ -13,14 +13,21 @@ import rtmidi
 import time
 
 def note_callback(messageType, midiNote, velocity):
-	if messageType is "note_on":
+	if messageType == "note_on":
 		midiout.send_message([0x90, midiNote, velocity])
-	elif messageType is "note_off":
+	elif messageType == "note_off":
 		midiout.send_message([0x80, midiNote, velocity])
 
 # Create a MIDI output port
 midiout = rtmidi.MidiOut()
-midiout.open_virtual_port("Grid Instrument (Virtual Port)")
+try:
+	midiout.open_virtual_port("Grid Instrument (Virtual Port)")
+except (RuntimeError, NotImplementedError):
+	ports = midiout.get_ports()
+	if not ports:
+		raise RuntimeError("No MIDI output ports are available on this system")
+	midiout.open_port(0)
+	print("Virtual MIDI ports are not supported on this platform; using:", ports[0])
 
 # Set up GridInstrument
 instrument = grid_instrument.GridInstrument()
