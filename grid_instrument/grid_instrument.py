@@ -8,9 +8,12 @@ try:
 	import launchpad_rtmidi_py as launchpad
 except ImportError:
 	try:
-		import launchpad_rtmidi_py
-	except ImportError:
-		sys.exit("error loading launchpad_rtmidi.py")
+		import launchpad_rtmidi as launchpad
+	except ImportError as exc:
+		raise ImportError(
+			"Could not import Launchpad library. Install one of: "
+			"launchpad_rtmidi_py or launchpad_rtmidi"
+		) from exc
 
 class GridInstrument:
 
