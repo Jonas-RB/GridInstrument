@@ -15,26 +15,28 @@ Features:
 * Can be used as a standalone app or incorporate into another Python project.
 * Key switching (you know, so that you're not stuck in the key of C)
 * Scale switching between the same 26 musical modes as Launchpad95
-* Works on Raspberry Pi and Mac OS (probably Windows, too, but not tested).
+* Works on Raspberry Pi, macOS, and Windows.
 * Two layouts (Diatonic 4th and Chromatic)
 * Works with all Novation Launchpads
 
 ## Requirements
 
-Before you try to do anything, make sure you have **Python 2** and **pip** installed.
+Before you try to do anything, make sure you have **Python 3.8+** and **pip** installed.
 
 ## How to Use it as a Standalone App
 
 Download the source code from github and install prerequisites:
 
     git clone https://github.com/dhilowitz/GridInstrument
-    cd GridInstrument; pip install launchpad_rtmidi_py
+    cd GridInstrument; python -m pip install launchpad_py python-rtmidi
 
 Run the app:
 
     python play.py
 
 If all goes well, you should see your grid light up. Next, go into another piece of software that can receive MIDI signals (sforzando is a good, free choice), and you should see a new MIDI device called "Grid Instrument (Virtual Port)"
+
+> Note: `launchpad_rtmidi_py` is Python-2-only. For Python 3 use `launchpad_py`.
 
 ### How to Use it as a Python Library
 
@@ -49,8 +51,8 @@ Download the source code from github:
 
 Install it:
 
-    python setup.py install
+    python -m pip install .
 
 #### Option 2: Install it with Pip
 
-    pip install grid_instrument
+    python -m pip install grid_instrument
