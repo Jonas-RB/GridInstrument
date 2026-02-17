@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #
 # Quick usage example of "grid_instrument".
 # Works with all Launchpads: Mk1, Mk2, S/Mini, Pro, XL and LaunchKey
@@ -13,10 +13,10 @@ import threading
 
 
 def note_callback(messageType, midiNote, velocity):
-	print "Note callback. messageType=", messageType, midiNote, velocity
+	print("Note callback. messageType=", messageType, midiNote, velocity)
 
 def button_callback(x, y, pressed):
-	print "Button Callback. x=", x, ", y=", y, ", pressed=", pressed 
+	print("Button Callback. x=", x, ", y=", y, ", pressed=", pressed)
 
 instrument = grid_instrument.GridInstrument()
 
