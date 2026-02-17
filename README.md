@@ -27,8 +27,7 @@ Before you try to do anything, make sure you have **Python 3.8+** and **pip** in
 
 Download the source code from github and install prerequisites:
 
-    git clone https://github.com/dhilowitz/GridInstrument
-    cd GridInstrument; python -m pip install launchpad_py python-rtmidi
+
 
 Run the app:
 
